@@ -4,9 +4,12 @@ import { CONTACTS_API } from "./ContactList";
 import { useNavigate } from "react-router-dom";
 import Form from "./Form";
 
-const ContactForm = () => {
+const ContactForm = ({ id = "", contactName = "", contactPhone = "" }) => {
   const navigate = useNavigate();
-  const [contact, setContact] = useState({ name: "", phone: "" });
+  const [contact, setContact] = useState({
+    name: contactName,
+    phone: contactPhone,
+  });
   const { name, phone } = contact;
 
   const handleChange = (e) => {
@@ -21,13 +24,22 @@ const ContactForm = () => {
       return;
     }
 
-    try {
-      await axios.post(CONTACTS_API, contact);
-      setContact({ name: "", phone: "" });
-    } catch (error) {
-      console.log("error in posting contact: ", error);
+    if (id === "") {
+      try {
+        await axios.post(CONTACTS_API, contact);
+      } catch (error) {
+        console.log("error in posting contact: ", error);
+      }
+    } else {
+      try {
+        setContact({ id, ...contact });
+        await axios.put(`${CONTACTS_API}/${id}`, contact);
+      } catch (error) {
+        console.log("error in updating contact: ", error);
+      }
     }
 
+    // setContact({ name: "", phone: "" });
     navigate("/");
   };
 

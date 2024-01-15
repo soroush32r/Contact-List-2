@@ -49,6 +49,16 @@ const ContactList = () => {
     }
   };
 
+  const handleUpdateContactInfo = async (id, contactInfo) => {
+    try {
+      await axios
+        .put(`${CONTACTS_API}/${id}`, contactInfo)
+        .then((response) => {});
+    } catch (error) {
+      console.error(`error happend on change user info ${name}: `, error);
+    }
+  };
+
   return (
     <div className="w-5/6 h-96 overflow-y-auto">
       {contacts.map(({ id, name, phone }) => (

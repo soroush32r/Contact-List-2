@@ -20,7 +20,7 @@ const Form = ({ handleSubmit, handleChange, name, phone }) => {
         type="submit"
         className="p-2 w-full text-center bg-sky-100 rounded-md hover:bg-sky-200"
       >
-        Add Contact
+        {name === "" ? "Add Contact" : "Edit Contact"}
       </button>
 
       {/* <Link
